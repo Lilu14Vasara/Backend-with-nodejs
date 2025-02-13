@@ -33,9 +33,9 @@ const publishAVideo = asyncHandler(async (req, res) => {
     const videoFilepath=req.file?.path
 
     if(!videoFilepath){
-        throw new ApiError(400,"Video file not found...")
+        throw new ApiError(400,"Video file not found")
     }
-    const videoUrl=await uploadOnCloudinary(vidioFilepath)
+    const videoUrl=await uploadOnCloudinary(videoFilepath)
     if (!videoUrl.path) {
         throw new ApiError(400,"Error while uploading")
     }
@@ -69,7 +69,7 @@ const getVideoById = asyncHandler(async (req, res) => {
 
 const updateVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
-    const{title,description}=req.body
+    const{title,description,thumbnail}=req.body
     if(!isValidObjectId(videoId)){
         throw new ApiError(400,"Invalid video ID")
     }
@@ -80,14 +80,14 @@ const updateVideo = asyncHandler(async (req, res) => {
         
     // }
     const video=await Video.findByIdAndUpdate(
-        videoId, { title, description }, { new: true }
+        videoId, { title, description,thumbnail }, { new: true }
     )
     if (!video) {
         throw new ApiError(404, "Video not found");
     }
 
     return res.status(200)
-              .json(new ApiResponse(200,video,"Avtar image updated"))
+              .json(new ApiResponse(200,video,"Video detail  updated"))
     //TODO: update video details like title, description, thumbnail
 
 })
