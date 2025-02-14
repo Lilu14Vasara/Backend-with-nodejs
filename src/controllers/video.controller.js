@@ -124,7 +124,7 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
         200, video, `Video is now ${video.isPublished ? 'published' : 'private'}.`
     ));
 })
-
+ 
 export {
     getAllVideos,
     publishAVideo,
